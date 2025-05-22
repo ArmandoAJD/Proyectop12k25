@@ -1,0 +1,1 @@
+PROD-0001|Lapiz|materiales|5|10

@@ -1,12 +1,16 @@
 #include "menu_archivo.h"
 #include "bitacora.h"
+#include "menu_general.h"
 #include <iostream>
 #include <limits>
 
 using namespace std;
 
-void mostrarMenuArchivo() {
+// Modificamos la función para recibir el usuario y mostrarlo
+void mostrarMenuArchivo(const string& usuario) {
+
     cout << "\n=== MENÚ DE ARCHIVO ===" << endl;
+    cout << "Usuario actual: " << usuario << endl;   // <-- Aquí mostramos el usuario
     cout << "1. Crear respaldo" << endl;
     cout << "2. Restaurar datos" << endl;
     cout << "3. Exportar datos" << endl;
@@ -20,7 +24,7 @@ void MenuArchivo::menuArchivo() {
     int opcion;
 
     do {
-        mostrarMenuArchivo();
+        mostrarMenuArchivo(usuario);
 
         while (!(cin >> opcion)) {
             cin.clear();

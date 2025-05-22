@@ -6,11 +6,13 @@
 
 using namespace std;
 
+// Limpia cualquier error de entrada y descarta el resto de la línea
 void limpiarBuffer() {
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
+// Muestra el menú de opciones iniciales (registro/login)
 void mostrarMenuLogin() {
     system("cls");
     cout << "=== SISTEMA DE GESTIÓN ===" << endl;
@@ -20,6 +22,7 @@ void mostrarMenuLogin() {
     cout << "Seleccione una opción: ";
 }
 
+// Ejecuta el proceso de registro de usuario
 void procesoRegistro() {
     string usuario, contrasena;
     cout << "\n--- REGISTRO ---" << endl;
@@ -30,12 +33,13 @@ void procesoRegistro() {
     contrasena = Usuario::leerContrasenaOculta();
 
     if (Usuario::registrarUsuario(usuario, contrasena)) {
-        cout << "✅ Usuario registrado exitosamente." << endl;
+        cout << "Usuario registrado exitosamente." << endl;
     } else {
-        cout << "❌ No se pudo registrar el usuario (¿ya existe?)." << endl;
+        cout << "No se pudo registrar el usuario (¿ya existe?)." << endl;
     }
 }
 
+// Ejecuta el proceso de inicio de sesión
 void procesoLogin() {
     string usuario, contrasena;
     int intentos = 0;
@@ -50,21 +54,28 @@ void procesoLogin() {
         contrasena = Usuario::leerContrasenaOculta();
 
         if (Usuario::iniciarSesion(usuario, contrasena)) {
-            cout << "\n✔ Acceso concedido" << endl;
+            cout << "\nAcceso concedido\n";
+
+            // Guardar el nombre del usuario actual
+            MenuGeneral::setUsuarioActual(usuario);
+
+            // Mostrar menú general
             MenuGeneral menu;
-            menu.mostrar();  // Ir directamente al menú principal tras login exitoso
+            menu.mostrar();
             return;
         }
 
-        cout << "\n❌ Credenciales incorrectas. ";
+        cout << "\nCredenciales incorrectas. ";
         if (++intentos < MAX_INTENTOS) {
             cout << "Intentos restantes: " << MAX_INTENTOS - intentos << endl;
         }
     }
-    cout << "⛔ Límite de intentos alcanzado" << endl;
+    cout << "Límite de intentos alcanzado" << endl;
 }
 
+// Función principal del programa
 int main() {
+    // Configuración para mostrar caracteres especiales correctamente en consola
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
 
@@ -76,18 +87,22 @@ int main() {
 
         switch (opcion) {
             case 1:
+                system("cls");
                 procesoRegistro();
                 break;
             case 2:
+                system("cls");
                 procesoLogin();
                 break;
             case 3:
-                cout << "👋 Saliendo del sistema..." << endl;
+                cout << "Saliendo del sistema..." << endl;
                 break;
             default:
-                cout << "❌ Opción inválida" << endl;
+                cout << "Opción inválida" << endl;
         }
+
         if (opcion != 3) system("pause");
+
     } while (opcion != 3);
 
     return 0;
